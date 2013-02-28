@@ -13,8 +13,7 @@
 <svg id="viz"></svg>
 <script>
     // Adapted from http://bl.ocks.org/mbostock/3887193
-    var width=800, height=480;
-    var radius = Math.min(width, height)/2 - 20;
+    var width=800, height=640, radius = 230;
     var textOffset = 12;
     var arc = d3.svg.arc()
         .outerRadius(radius)
@@ -51,6 +50,16 @@
     var invcolor = function(v) { 
         return scaled(v) > 0x44 ? 'black' : 'white';
     }
+    function rotated(d) {
+        var avg = ((d.startAngle + d.endAngle)/2)
+        var rdeg = (
+            (avg < Math.PI) ? 
+            (avg - Math.PI/2) :
+            (Math.PI/2 + avg) 
+        ) * 180/Math.PI;
+        return rdeg;
+    }
+
     var g = svg.selectAll('.arc')
         .data(pie(data))
         .enter().append("g")
@@ -60,7 +69,10 @@
         .style('fill', function(d) { return color(d.data[1]); })
 
     g.append('text')
-        .attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })
+        .attr('transform', function(d) { 
+            return 'translate(' + arc.centroid(d) + ')' +
+            ' rotate(' + rotated(d) + ' 0 0)'; 
+        })
         .attr('dy', '.35em')
         .style('text-anchor', 'middle')
         .attr('fill', function(d){ return invcolor(d.data[1]); })
@@ -71,9 +83,11 @@
         .append('text')
         .attr('class', 'language')
         .attr('transform', function(d) { 
-            return 'translate(' + 
-                Math.cos(((d.startAngle + d.endAngle - Math.PI)/2))*(radius + textOffset)+ ',' +
-                Math.sin(((d.startAngle + d.endAngle - Math.PI)/2))*(radius + textOffset)+')';
+                var avg = ((d.startAngle + d.endAngle)/2)
+                return 'translate(' + 
+                    Math.cos(avg - Math.PI/2)*(radius + textOffset)+ ',' +
+                    Math.sin(avg - Math.PI/2)*(radius + textOffset)+')' + 
+                    ' rotate(' + rotated(d) + " 0 0)";
             })
         .attr('text-anchor', function(d){
             return (d.startAngle + d.endAngle)/2 < Math.PI ? 
