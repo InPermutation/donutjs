@@ -31,8 +31,6 @@
     var data = [["Ruby", 0.58], ["JavaScript", 0.11], ["Objective-C", 0.08],
                 ["Shell", 0.05], ["CoffeeScript", 0.05], ["C", 0.04],
                 ["C#", 0.03], ["Other", 0.06]];
-    var min = data.reduce(function(p,c){ return Math.min(p, c[1]);}, 1);
-    var max = data.reduce(function(p,c){ return Math.max(p, c[1]);}, 0);
     function hexed(num) {
         var hex = Math.floor(num).toString(16);
         return "#"+hex+hex+hex;
