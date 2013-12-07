@@ -1,4 +1,4 @@
-donutjs is a [GitHub page](http://krallja.github.com/donutjs)
+donutjs is a [GitHub page](http://InPermutation.github.io/donutjs)
 =======
 
 A quick way to make a beautiful donut chart.
